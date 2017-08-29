@@ -25,8 +25,6 @@ for candidate in json['result']:
 
     candidates.append(candidate)
 
-    print 'Parsed candidate: ' + candidate['name']
-
 try:
     scraperwiki.sqlite.execute('DELETE FROM data')
 except sqlite3.OperationalError:
