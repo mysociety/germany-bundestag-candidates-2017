@@ -5,8 +5,6 @@ import sqlite3
 # Get the JSON
 json = json.loads(scraperwiki.scrape('https://wahl.tagesspiegel.de/2017/api/candidates/dump'))
 
-# pprint.pprint(json)
-
 candidates = []
 
 for candidate in json['result']:
@@ -19,7 +17,7 @@ for candidate in json['result']:
 
     candidate = {
         'id': candidate['id'],
-        'name': candidate['name']['forename'] + candidate['name']['surname'],
+        'name': candidate['name']['forename'] + ' ' + candidate['name']['surname'],
         'area_id': candidate['election']['district'],
         'area_type_description': 'District',
         'facebook_urls': ', '.join(facebook_urls)
@@ -27,10 +25,12 @@ for candidate in json['result']:
 
     candidates.append(candidate)
 
+    print 'Parsed candidate: ' + candidate['name']
+
 try:
     scraperwiki.sqlite.execute('DELETE FROM data')
 except sqlite3.OperationalError:
     pass
 scraperwiki.sqlite.save(
-    unique_keys=['id', 'name', 'area_id', 'area_type_description', 'facebook_urls'],
+    unique_keys=['id'],
     data=candidates)
