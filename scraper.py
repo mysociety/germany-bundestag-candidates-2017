@@ -20,6 +20,7 @@ for candidate in json['result']:
         'name': unicode(candidate['name']['forename'] + ' ' + candidate['name']['surname']),
         'area_id': candidate['election']['district'],
         'area_type_description': 'District',
+        'party': candidate['election']['party'],
         'facebook_urls': ', '.join(facebook_urls)
     }
 
